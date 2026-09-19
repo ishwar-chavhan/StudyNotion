@@ -42,7 +42,7 @@ app.use("/api/v1/payment" , paymentRoutes );
 
 app.get("/" , (req , res)=>{
     return res.json({
-        success : false,
+        success : true,
         message : "your server is up and running"
     })
 })
