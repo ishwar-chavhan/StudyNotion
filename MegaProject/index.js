@@ -18,14 +18,29 @@ database.connect();
 
 app.use(express.json());
 app.use(cookieParser());
+
+
+const allowedOrigins = (process.env.CORS_ORIGINS || "http://localhost:3000")
+    .split(",")
+    .map((o) => o.trim());
+
 app.use(
     cors({
-        origin: "http://localhost:3000",
+        origin: (origin, cb) => {
+            // allow curl/Postman (no Origin header)
+            if (!origin) return cb(null, true);
+            if (allowedOrigins.includes(origin)) return cb(null, true);
+            // allow all your Vercel preview deploys
+            if (/^https:\/\/study-notion-frontend-.*\.vercel\.app$/.test(origin)) return cb(null, true);
+            return cb(new Error("Not allowed by CORS: " + origin));
+        },
         credentials: true,
         allowedHeaders: ["Content-Type", "Authorization"],
-        methods: ["GET", "POST", "PUT", "DELETE"],
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     })
-)
+);
+
+
 app.use(
     fileUpload({
         useTempFiles : true,
