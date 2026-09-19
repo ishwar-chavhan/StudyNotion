@@ -1,8 +1,8 @@
-import React, { useDebugValue, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { LoadingSpinner, Player } from 'video-react';
-import { setCompletedLectures, updateCompletedLectures } from '../../../slice/viewCourseSlice';
+import { Player } from 'video-react';
+import { setCompletedLectures } from '../../../slice/viewCourseSlice';
 import 'video-react/dist/video-react.css';
 import { markLectureAsComplete } from '../../../services/operation/courseDetailsAPI';
 import { FaPlayCircle } from "react-icons/fa";
@@ -18,7 +18,6 @@ const VideoDetails = () => {
   const {
     courseSectionData,
     courseEntireData,
-    totalNoOfLectures,
     completedLectures,
   } = useSelector((state) => state.viewCourse);
 
@@ -52,6 +51,7 @@ const VideoDetails = () => {
       }
     }
     setVideoSpecificDetails();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseSectionData, courseEntireData, location.pathname])
 
 
@@ -125,7 +125,6 @@ const VideoDetails = () => {
     const currentSectionIndex = courseSectionData.findIndex(
       (data) => data._id === sectionId
     )
-    const noOfSubSection = courseSectionData[currentSectionIndex].subSection.length;
     const currentSubSectionIndex = courseSectionData[currentSectionIndex].subSection.findIndex((
       (data) => data._id === subSectionId
     ))

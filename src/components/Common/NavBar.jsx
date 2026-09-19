@@ -22,11 +22,7 @@ import { FaArrowDown } from "react-icons/fa";
 // ]
 
 
-const NavBar = ({setLoginType}) => {
-    
-    function clickHandler(value){
-        setLoginType(value);
-    }
+const NavBar = () => {
 
     const {token } = useSelector((state)=>state.auth);
     const {user } = useSelector((state)=>state.profile);
@@ -37,12 +33,9 @@ const NavBar = ({setLoginType}) => {
     const fetchSubLink = async () => {
             try{
                 const result = await apiConnector("GET" , categories.CATEGORIES_API);
-                const datas = result?.data?.data?.filter((ct)=>ct.name.split(" ").join("-"))
-                console.log("datas",datas);
                 setSubLink(result?.data?.data);
             }catch(error){
-                console.log(error);
-                console.log("could not fetch the catefory list")
+                console.log("could not fetch the category list")
             }
         }
 
@@ -153,7 +146,7 @@ const NavBar = ({setLoginType}) => {
                     <Link to = "/login">
                         <button className='border border-richblack-700
                          bg-richblack-800 px-[12px] py-[8px]
-                          text-richblack-100 rounded-md' onClick={()=>clickHandler("login")}>
+                          text-richblack-100 rounded-md'>
                             Log in
                         </button>
                     </Link>
@@ -164,7 +157,7 @@ const NavBar = ({setLoginType}) => {
                     <Link to = "/signup">
                         <button className='border border-richblack-700
                          bg-richblack-800 px-[12px] 
-                        py-[8px] text-richblack-100 rounded-md' onClick={()=>clickHandler("signup")}>
+                        py-[8px] text-richblack-100 rounded-md'>
                             Sign Up
                         </button>
                     </Link>

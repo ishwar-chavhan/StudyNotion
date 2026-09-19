@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Outlet, useSearchParams } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import Sidebar from '../Core/dashboard/Sidebar'
 // import { Outlet  } from 'react-router-dom'
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import RenderStep from '../RenderStep';
@@ -9,24 +9,18 @@ const EditCourse = () => {
   const dispatch = useDispatch();
   const { courseId } = useParams();
   const { course } = useSelector((state) => state.course);
-  const [loading, setLoading] = useState(false);
   const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const populateCourseDetails = async () => {
-      setLoading(true);
-      console.log(courseId)
       const result = await getFullDetailsOfCourse(courseId, token);
-      console.log(result)
       if (result) {
         dispatch(setEditCourse(true));
         dispatch(setCourse(result));
-
       }
-      setLoading(false);
-
     }
     populateCourseDetails();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <div>

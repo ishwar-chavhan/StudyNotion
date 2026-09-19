@@ -3,9 +3,8 @@ import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { createSubSection, updateSubSection } from '../../../../services/operation/courseDetailsAPI';
-import { setCourse, setStep } from '../../../../slice/courseSlice';
+import { setCourse } from '../../../../slice/courseSlice';
 import { RxCross1 } from "react-icons/rx";
-import IconButton from '../../dashboard/IconButton';
 import UploadImage from '../AddcourseFile/UploadImage';
 const SubSectionModal = ({
     modalData,
@@ -38,7 +37,8 @@ const SubSectionModal = ({
             setValue("lectureVideo", modalData.video);
 
         }
-    }, []);
+    }, // eslint-disable-next-line react-hooks/exhaustive-deps
+    []);
 
     const isFormUpdated = () => {
         const currentValue = getValues();

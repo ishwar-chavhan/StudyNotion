@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { resetCourseState, setStep } from '../../../../slice/courseSlice';
-import { clearAllListeners } from '@reduxjs/toolkit';
 import { COURSE_STATUS } from '../../../../utils/constants';
 import { editCourseDetails } from '../../../../services/operation/courseDetailsAPI';
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +19,7 @@ const PublishCourse = () => {
     useEffect(() => {
 
         setValue("public", course?.status);
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const goback = () => {
@@ -41,8 +40,6 @@ const PublishCourse = () => {
         //     return;
         // }
         // if form updated
-        const ish = getValues();
-
         const formData = new FormData();
         formData.append("courseId", course._id);
         const courseStatus = getValues("public") ? COURSE_STATUS.PUBLISHED : COURSE_STATUS.DRAFT;

@@ -15,7 +15,6 @@ const CourseBuilderForm = () => {
     register,
     handleSubmit,
     setValue,
-    getValue,
     formState: { errors }
   } = useForm();
 
@@ -83,8 +82,7 @@ const CourseBuilderForm = () => {
       setEditSectionName(null);
       setValue("sectionName", "");
     }
-
-
+    console.log(loading)
     setLoading(false);
   }
 

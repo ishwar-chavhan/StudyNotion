@@ -12,13 +12,12 @@ const {
     CREATE_SUBSECTION_API,
     UPDATE_SUBSECTION_API,
     EDIT_COURSE_API,
-   FETCHEDALLCOURSEDETAILS_API,
-   DELETECOURSE_API,
-   GETALLCOURSEBYCOURSEID_API,
-   FETCH_COURSE_DETAILS_BY_ID_API,
-   CREATE_RATING,
-   LECTURE_COMPLETION_API ,
-   GET_COURSE_BY_COURSEID
+    FETCHEDALLCOURSEDETAILS_API,
+    DELETECOURSE_API,
+    GETALLCOURSEBYCOURSEID_API,
+    CREATE_RATING,
+    LECTURE_COMPLETION_API,
+    GET_COURSE_BY_COURSEID
 } = courseEndpoints;
 
 export const fetchCategories = async () => {
@@ -35,8 +34,8 @@ export const fetchCategories = async () => {
         console.log(error);
         toast.error("error in fetcbCategorie");
     }
+    toast.dismiss(toastId)
     return result;
-     toast.dismiss(toastId);
 }
 
 export const addCourseDetails = async (data, token) => {
@@ -139,7 +138,7 @@ export const createSubSection = async (data, token) => {
         }
 
         toast.success("Subsection is created successFully");
-        result = response?.data?.data; 
+        result = response?.data?.data;
     } catch (error) {
         console.log("error in create Subsection api", error);
         toast.error("could not create Subsection");
@@ -213,11 +212,11 @@ export const updateSubSection = async (data, token) => {
                 Authorization: `Bearer ${token}`,
             }
         )
-              console.log("level2")
+        console.log("level2")
         if (!response?.data?.success) {
             throw new Error("error in updating subsection");
         }
-          console.log("level3")
+        console.log("level3")
         result = response?.data?.data;
         toast.success("subSection updated successfully");
     } catch (error) {
@@ -228,45 +227,45 @@ export const updateSubSection = async (data, token) => {
     return result;
 }
 
-export const editCourseDetails = async (data , token) =>{
+export const editCourseDetails = async (data, token) => {
     let result = [];
     const toastId = toast.loading("...loading");
-    try{
-        console.log("stage1" ,  EDIT_COURSE_API)
-        const response = await apiConnector("POST" , EDIT_COURSE_API , data ,  {
-                Authorization: `Bearer ${token}`,
-            })
-console.log("stage2")
-            if(!response.data.success){
-                throw new Error("something is wrong in editCourseDetails ,EDIT_COURSE_API");
-            }
-console.log("stage3")
-               result = response?.data?.data;
-               console.log("editCourseDetails" , result);
-                 toast.success("course edited successfully");
-    }catch(error){
-        console.log("error in editCourseDetails " ,error);
+    try {
+        console.log("stage1", EDIT_COURSE_API)
+        const response = await apiConnector("POST", EDIT_COURSE_API, data, {
+            Authorization: `Bearer ${token}`,
+        })
+        console.log("stage2")
+        if (!response.data.success) {
+            throw new Error("something is wrong in editCourseDetails ,EDIT_COURSE_API");
+        }
+        console.log("stage3")
+        result = response?.data?.data;
+        console.log("editCourseDetails", result);
+        toast.success("course edited successfully");
+    } catch (error) {
+        console.log("error in editCourseDetails ", error);
         toast.error("error in EDIT_COURSE_API ")
     }
     toast.dismiss(toastId);
     return result;
 }
 
-export const fetchInstructorCourse = async (token)=>{
-     let result = null;
+export const fetchInstructorCourse = async (token) => {
+    let result = null;
     const toastId = toast.loading("...loading");
-    try{
-        
-        const response = await apiConnector("GET" , FETCHEDALLCOURSEDETAILS_API , null  , {
-               Authorization: `Bearer ${token}`,
-        } );
-        if(!response.data.success){
+    try {
+
+        const response = await apiConnector("GET", FETCHEDALLCOURSEDETAILS_API, null, {
+            Authorization: `Bearer ${token}`,
+        });
+        if (!response.data.success) {
             throw new Error("something is wrong while fetching the courseData by userId");
         }
-          result = response?.data?.data;
-                //  toast.success("course data fecthed successfully");
-    }catch(error){
-        console.log("error in fetchInstructorCourse " ,error);
+        result = response?.data?.data;
+        //  toast.success("course data fecthed successfully");
+    } catch (error) {
+        console.log("error in fetchInstructorCourse ", error);
         toast.error("error in fetchInstructorCourse ")
     }
     toast.dismiss(toastId);
@@ -274,126 +273,126 @@ export const fetchInstructorCourse = async (token)=>{
 }
 
 
-export const deleteCourse =async(data , token) =>{
-       let result = null;
-    const toastId = toast.loading("...loading");  
-     try{
+export const deleteCourse = async (data, token) => {
+    let result = null;
+    const toastId = toast.loading("...loading");
+    try {
 
-        const response = await apiConnector("DELETE" , DELETECOURSE_API , data , {
-               Authorization: `Bearer ${token}`,
-        } );
+        const response = await apiConnector("DELETE", DELETECOURSE_API, data, {
+            Authorization: `Bearer ${token}`,
+        });
 
-        if(!response?.data?.success){
+        if (!response?.data?.success) {
             throw new Error("success is false check it deleteCourse")
         }
         result = response?.data?.data;
         toast.success("course deleted successfully");
-    }catch(error){
-        console.log("error in deleteCourse " ,error);
+    } catch (error) {
+        console.log("error in deleteCourse ", error);
         toast.error("error in deleteCourse ")
     }
     toast.dismiss(toastId);
     return result;
 }
 
-export const getFullDetailsOfCourse = async(courseId , token)=>{
-     let result = null;
-    const toastId = toast.loading("...loading"); 
-    console.log("courseId" , courseId)
-    console.log("GETALLCOURSEBYCOURSEID_API" , GETALLCOURSEBYCOURSEID_API)
-    try{
-           console.log("porblem is here----------->" );
+export const getFullDetailsOfCourse = async (courseId, token) => {
+    let result = null;
+    const toastId = toast.loading("...loading");
+    console.log("courseId", courseId)
+    console.log("GETALLCOURSEBYCOURSEID_API", GETALLCOURSEBYCOURSEID_API)
+    try {
+        console.log("porblem is here----------->");
         const url = `${GETALLCOURSEBYCOURSEID_API}/${courseId}`;
-        const response = await apiConnector("GET" , url, null, {
-               Authorization: `Bearer ${token}`,
+        const response = await apiConnector("GET", url, null, {
+            Authorization: `Bearer ${token}`,
         });
 
-        if(!response?.data?.success){
+        if (!response?.data?.success) {
             throw new Error("success is false check it deleteCourse")
         }
-        console.log("result is here----------->" , result);
+        console.log("result is here----------->", result);
         toast.success("course details is fetched successfully");
-        result =response?.data?.data;
-        console.log(" GETALLCOURSEBYCOURSEID_API result" , response?.data?.data?.courseDetails)
-    }catch(error){
-        console.log("error in getFullDetailsOfCourse " ,error);
+        result = response?.data?.data;
+        console.log(" GETALLCOURSEBYCOURSEID_API result", response?.data?.data?.courseDetails)
+    } catch (error) {
+        console.log("error in getFullDetailsOfCourse ", error);
         toast.error("error in getFullDetailsOfCourse ")
     }
     toast.dismiss(toastId);
     return result;
 }
 
-export const createRating = async (data , token)=>{
-    const toastId = toast.loading("...loading"); 
+export const createRating = async (data, token) => {
+    const toastId = toast.loading("...loading");
     console.log("step1")
-    try{
- console.log("data" , data)
-        const response = await apiConnector("POST" , CREATE_RATING , data , {
-               Authorization: `Bearer ${token}`,
+    try {
+        console.log("data", data)
+        const response = await apiConnector("POST", CREATE_RATING, data, {
+            Authorization: `Bearer ${token}`,
         }
         );
-    console.log("step2")
-          if(!response?.data?.success){
+        console.log("step2")
+        if (!response?.data?.success) {
             throw new Error("error in create rating")
         }
         toast.success("rating created")
-    }catch(error){
-        console.log("error in create rating " ,error);
+    } catch (error) {
+        console.log("error in create rating ", error);
         toast.error("error in create rating ")
     }
-     toast.dismiss(toastId);
+    toast.dismiss(toastId);
 }
 
 
-export const markLectureAsComplete = async(data , token) =>{
+export const markLectureAsComplete = async (data, token) => {
     let result = null;
-    console.log("mark complete data" , data);
-    const toastId = toast.loading("...loading"); 
-    try{
-         console.log("curseprogress level 23")
-        const response = await apiConnector("POST" , LECTURE_COMPLETION_API , data , {
+    console.log("mark complete data", data);
+    const toastId = toast.loading("...loading");
+    try {
+        console.log("curseprogress level 23")
+        const response = await apiConnector("POST", LECTURE_COMPLETION_API, data, {
             Authorization: `Bearer ${token}`,
         });
-        console.log("MARK_LECTURE_COMPLETION_API_response" , response);
-     console.log("curseprogress level 128")
-        if(!response.data.success){
+        console.log("MARK_LECTURE_COMPLETION_API_response", response);
+        console.log("curseprogress level 128")
+        if (!response.data.success) {
             throw new Error(response.data.error);
         }
         toast.success("lecture completed");
         result = true;
-    }catch(error){
-        console.log("error in MARK_LECTURE_COMPLETION_API" ,error);
+    } catch (error) {
+        console.log("error in MARK_LECTURE_COMPLETION_API", error);
         toast.error("error in MARK_LECTURE_COMPLETION_API")
     }
-     toast.dismiss(toastId);
-     return result;
+    toast.dismiss(toastId);
+    return result;
 }
 
 
 
-export const getCourseByCourseId = async(courseId , token)=>{
-     let result = null;
-    const toastId = toast.loading("...loading"); 
-    console.log("getCourseByCourseId" , courseId)
-    console.log("getCourseByCourseId" ,    GET_COURSE_BY_COURSEID)
+export const getCourseByCourseId = async (courseId, token) => {
+    let result = null;
+    const toastId = toast.loading("...loading");
+    console.log("getCourseByCourseId", courseId)
+    console.log("getCourseByCourseId", GET_COURSE_BY_COURSEID)
     console.log("step 1")
-    try{
+    try {
         //    console.log("porblem is here----------->" );
         const url = `${GET_COURSE_BY_COURSEID}/${courseId}`;
-        const response = await apiConnector("GET" , url, null, {
-               Authorization: `Bearer ${token}`,
+        const response = await apiConnector("GET", url, null, {
+            Authorization: `Bearer ${token}`,
         });
 
-        if(!response?.data?.success){
+        if (!response?.data?.success) {
             throw new Error("success is false check it deleteCourse")
         }
         // console.log("result is here----------->" , result);
         console.log("step 2")
         toast.success("course details is fetched successfully");
-        result =response?.data?.data;
+        result = response?.data?.data;
         // console.log(" GETALLCOURSEBYCOURSEID_API result" , response?.data?.data?.courseDetails)
-    }catch(error){
-        console.log("error in fetchong getCourseByCourseId " ,error);
+    } catch (error) {
+        console.log("error in fetchong getCourseByCourseId ", error);
         toast.error("error in fetchong getCourseByCourseId ")
     }
     console.log("step 3 ")

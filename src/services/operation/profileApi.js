@@ -5,7 +5,6 @@ import { setUser } from "../../slice/profileSlice";
 
 const {
     GET_USER_ENROLLED_COURSES_API, 
-    GET_USER_DETAILS_API,
     UPDATE_PROFILE_IMAGE_API ,
     UPDATE_PROFILE_API,
     GET_INSTRUCTOR_DATA_API

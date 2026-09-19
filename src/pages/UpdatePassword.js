@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useSearchParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import {AiOutlineEye , AiOutlineEyeInvisible} from "react-icons/ai"; 
 import { Link } from 'react-router-dom';
 import { FaArrowLeftLong } from "react-icons/fa6";

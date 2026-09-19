@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-
-import { CgPassword } from 'react-icons/cg';
 import {AiOutlineEye , AiOutlineEyeInvisible} from "react-icons/ai";
 import { Link, useNavigate } from 'react-router-dom';
-// import loginImage from "../assets/Images/signup.webp";
-// import loginBackImage from "../assets/Images/frame.png";
-// import {AiOutlineEye , AiOutlineEyeInvisible} from "react-icons/ai"; 
-import HighlightText from "../HomePage/HighlightText";
-import CTAButton from "../HomePage/Button";
 import { useDispatch } from "react-redux";
 import {login} from "../services/operation/authApi";
 
@@ -32,9 +25,8 @@ const Login = () => {
 
   function submitHandler(event){
     event.preventDefault();
-    console.log(formDataLogin);
     dispatch(login(formDataLogin.email , formDataLogin.password , navigate))
-  } 
+  }
    
 
   return (

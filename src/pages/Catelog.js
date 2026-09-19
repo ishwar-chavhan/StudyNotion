@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { apiConnector } from '../services/apiconnector';
 import { categories } from '../services/apis';
-import Course_card from '../components/Core/catalog/Course_card';
+import CourseCard from '../components/Core/catalog/Course_card';
 import CourseSlider from '../components/Core/catalog/CourseSlider';
 import FooterPartOne from "../HomePage/FooterPartOne"
 import gteCatelogPageData from '../services/operation/pageAndCoomponentData';
@@ -23,6 +23,7 @@ const Catelog = () => {
             setCategoryId(category_id);
         }
         getCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     } , [catalogName]);
 
     useEffect(()=>{
@@ -109,7 +110,7 @@ const Catelog = () => {
                                             {
                                                 catalogPageData?.data?.mostSellingCourse?.map((course,index)=>(
                                                    <div >
-                                                            <Course_card
+                                                             <CourseCard
                                                             course={course}
                                                             key={index}
                                                             width = {"600px"}

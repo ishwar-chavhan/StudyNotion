@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import {AiOutlineEye , AiOutlineEyeInvisible} from "react-icons/ai";
-import { Link, useNavigate } from 'react-router-dom';
-import CTAButton from "../HomePage/Button"
+import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
-import { apiConnector } from '../services/apiconnector';
-import { signup ,sendotp } from '../services/operation/authApi';
+import { sendotp } from '../services/operation/authApi';
 import { useDispatch } from 'react-redux';
 import { setSignupData } from '../slice/authSlice';
-// import toast, { ToastBar } from 'react-hot-toast';
 const Signup = () => {
 
    const [formDataSignUp,  setFormDataSignUp] = useState({
@@ -44,7 +41,6 @@ const Signup = () => {
 
     dispatch(setSignupData(formDataSignUp));
     dispatch(sendotp(formDataSignUp.email , navigate));
-     console.log(formDataSignUp);
     setFormDataSignUp({
       firstName: "",
       lastName: "",
@@ -76,7 +72,7 @@ const Signup = () => {
                               Student
                           </button>
                           <button  onClick={()=>clickHandler("Instructor")}
-                              className={`${isType == "Instructor" ? "bg-richblack-900" : "bg-richblack-800 " } text-richblack-5 rounded-full py-2 
+                              className={`${isType === "Instructor" ? "bg-richblack-900" : "bg-richblack-800 " } text-richblack-5 rounded-full py-2 
                               px-5  max-w-max transition-all duration-200`}
                               >
                               Instructor

@@ -7,8 +7,7 @@ const ChangePass = () => {
   const {
     register,
     handleSubmit,
-    reset,
-    formState : {errors , isSubmitSuccessful}
+    formState : {errors}
   } = useForm();
   const dispatch = useDispatch();
   const {token} = useSelector((state)=>state.auth);

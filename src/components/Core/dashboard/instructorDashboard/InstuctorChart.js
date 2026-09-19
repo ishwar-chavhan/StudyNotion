@@ -1,7 +1,7 @@
 import React , {useState} from 'react'
 import { Chart , registerables } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import { TbBackground } from 'react-icons/tb';
+
 
 Chart.register(...registerables);
 

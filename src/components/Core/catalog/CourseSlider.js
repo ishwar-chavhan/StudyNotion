@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import Course_card from './Course_card';
+import CourseCard from './Course_card';
 
 
 const CourseSlider = ({course , height , width}) => {
@@ -37,7 +37,7 @@ const CourseSlider = ({course , height , width}) => {
             
                 >
 
-                  <Course_card course={courses} height={height} width={width}/>
+                  <CourseCard course={courses} height={height} width={width}/>
                 </SwiperSlide>
               ))
             }

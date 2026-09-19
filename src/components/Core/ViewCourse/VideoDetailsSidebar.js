@@ -25,8 +25,8 @@ const VideoDetailsSidebar = ({setReviewModal}) => {
             const currentSectionIndex = courseSectionData.findIndex(
                 (data) => data._id === sectionId
             )
-            const currentSubSectionIndex = courseSectionData?.[currentSectionIndex]?.subSection.
-            findIndex((data) => data._id === subSectionId);
+            const currentSubSectionIndex = courseSectionData?.[currentSectionIndex]?.subSection
+            .findIndex((data) => data._id === subSectionId);
 
             const activeSubSectionId  = courseSectionData[currentSectionIndex]?.subSection?.[currentSubSectionIndex]?._id;
 
@@ -37,6 +37,7 @@ const VideoDetailsSidebar = ({setReviewModal}) => {
         }
 
           setActiveFlags();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     } , [courseSectionData , courseEntireData , location.pathname]);
 
 

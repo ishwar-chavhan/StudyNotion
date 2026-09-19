@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaRegEdit } from "react-icons/fa";
+// import { FaRegEdit } from "react-icons/fa";
 
 const IconButton = ({
   text,
@@ -14,13 +14,13 @@ const IconButton = ({
   return (
     <button disabled={disabled}
       onClick={onclick}
-       type={type}
+      type={type}
       className={customClasses}
     >
       {
         iconsPresent ? (
           iconsPresent
-        ):(<div></div>)
+        ) : (<div></div>)
       }
       <span>{text}</span>
       {children && children}

@@ -2,7 +2,7 @@ import React from 'react';
 import  signupImg from "../../assets/Images/signup.webp";
 import Template from '../../pages/Template';
 
-const SignupPaga = ({setIsLoggedIn}) => {
+const SignupPaga = () => {
   return (
     <div>
          <Template
@@ -11,7 +11,6 @@ const SignupPaga = ({setIsLoggedIn}) => {
             data2="Education to future-proof your career"
             image={signupImg}
             formtype="signup"
-            setIsLoggedIn={setIsLoggedIn}
             />
     </div>
   )

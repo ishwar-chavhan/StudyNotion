@@ -26,6 +26,7 @@ const IstructorCart = () => {
         }
 
         fecthedCourse();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleCourseDelete = async (courseId) => {

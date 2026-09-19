@@ -9,6 +9,7 @@ const RequirementField = ({ name, label, register, errors, placeholder, setValue
             required: true,
             validate: (value) => value.length > 0
         })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Pre-populate with existing instructions when editing a course
@@ -20,6 +21,7 @@ const RequirementField = ({ name, label, register, errors, placeholder, setValue
 
     useEffect(() => {
         setValue(name, requirementList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [requirementList])
 
 

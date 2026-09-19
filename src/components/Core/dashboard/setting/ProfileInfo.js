@@ -11,8 +11,7 @@ const ProfileInfo = () => {
     const{
       register,
       handleSubmit,
-      reset,
-      formState : {errors , isSubmitSuccessful}
+      formState : {errors}
     } = useForm();
 
 

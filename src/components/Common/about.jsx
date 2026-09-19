@@ -127,7 +127,7 @@ const About = () => {
           <p className="text-[14px] text-richblack-100">The learning process uses the namely online and offline.</p>
         </div>
         <div className= "flex flex-col gap-14 p-8">
-          <h2 className='text-[16px] font-inter font-semibold text-richblack-5'></h2>
+          <h2 className='text-[16px] font-inter font-semibold text-richblack-5'>Our Values</h2>
           <p className="text-[14px] text-richblack-100"></p>    
         </div>
         <div className= "flex flex-col gap-14 bg-richblack-700 p-8">

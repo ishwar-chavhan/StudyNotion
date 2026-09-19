@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { changeProfileImage } from '../../../../services/operation/profileApi';
 import { MdOutlineFileUpload } from "react-icons/md";
 import ProfileInfo from './ProfileInfo';

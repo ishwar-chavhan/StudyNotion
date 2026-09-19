@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RxDropdownMenu } from "react-icons/rx";
 import { MdModeEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { BiSolidDownArrow } from "react-icons/bi";
 import { HiOutlinePlusSm } from "react-icons/hi";
-import { setCourse, setStep } from '../../../../slice/courseSlice';
+import { setCourse } from '../../../../slice/courseSlice';
 import { deleteSection, deleteSubSection } from '../../../../services/operation/courseDetailsAPI';
 import SubSectionModal from './SubSectionModal';
 import ConfirmationModal from "../../dashboard/ConfirmationModal";

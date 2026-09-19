@@ -1,7 +1,7 @@
 import { apiConnector } from "../apiconnector";
 import { authEndpoint } from "../apis";
 import { toast } from "react-toastify";
-import { setLoading , setToken , setSignupData } from "../../slice/authSlice";
+import { setLoading , setToken } from "../../slice/authSlice";
 import { setUser } from "../../slice/profileSlice";
 
 const{

@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { Rating } from 'react-simple-star-rating'
 import { createRating } from '../../../services/operation/courseDetailsAPI';
-import { useParams } from 'react-router-dom';
 
 const CourseReviewModal = ({setReviewModal}) => {
     const {user} = useSelector((state)=>state.profile);
@@ -19,6 +18,7 @@ const CourseReviewModal = ({setReviewModal}) => {
     useEffect(()=>{
         setValue("courseExperience" , "");
         setValue("courseRating" , 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     const onSubmit = async (data)=>{
@@ -60,7 +60,7 @@ const CourseReviewModal = ({setReviewModal}) => {
                 <div>
                         <img 
                         src={user?.image}
-                        alt='user image'
+                        alt={`${user?.firstName}`}
                         className='aspect-square mx-auto w-[50px] rounded-full object-cover'
                         />
                         <div>

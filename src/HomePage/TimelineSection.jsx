@@ -38,7 +38,7 @@ const TimelineSection = () => {
                         return(
                             <div className='flex flex-row gap-4 relative' key={index}>
                                 <div className='w-[50px] h-[50px] bg-white flex items-center justify-center rounded-full'>
-                                    <img src = {element.logo}/>
+                                    <img src = {element.logo} alt={element.heading}/>
                                 </div>
                                 <div>
                                     <h2 className='font-semibold text-[18px]'>
@@ -61,7 +61,7 @@ const TimelineSection = () => {
 
 
                <div className='relative shadow-blue-200 '>
-                     <img src={timeLineImage} className='shadow-white object-cover h-fit flex ' />
+                     <img src={timeLineImage} alt="timeline" className='shadow-white object-cover h-fit flex ' />
 
                      <div className='absolute bg-caribbeangreen-700 flex flex-row text-white uppercase  py-7
                      left-[50%] translate-x-[-50%] translate-y-[-50%]

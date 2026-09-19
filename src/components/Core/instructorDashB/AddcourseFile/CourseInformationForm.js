@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCategories } from '../../../../services/operation/courseDetailsAPI';
 import { HiOutlineCurrencyRupee } from "react-icons/hi";
-import { categories } from '../../../../services/apis';
 import RequirementField from './RequirementField';
 import { toast } from 'react-toastify';
 import IconButton from "../../dashboard/IconButton";
