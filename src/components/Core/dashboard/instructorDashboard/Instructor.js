@@ -29,7 +29,7 @@ const Instructor = () => {
         setLoading(false);
         // pending
         getCourseDataWithStats();
-    }, [])
+    }, [token])
 
 
     // console.log("course data found or not",coursesData);
