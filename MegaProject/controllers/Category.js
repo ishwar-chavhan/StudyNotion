@@ -1,4 +1,4 @@
-const { FaWineGlassEmpty } = require("react-icons/fa6");
+
 const Category = require("../models/Category");
 const Course = require("../models/course");
 const mongoose = require("mongoose");
