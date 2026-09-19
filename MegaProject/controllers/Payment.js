@@ -6,7 +6,6 @@ const mailSender = require("../utils/mailSender");
 require("dotenv").config();
 const crypto = require("crypto");
 const { default: mongoose } = require("mongoose");
-const { use } = require("react");
 const { paymentSuccessEmail } = require("../templates/paymentSuccessEmail");
 const {courseEnrollmentEmail } = require("../templates/courseEnrollmentEmail");
 const courseProgress = require("../models/courseProgress");
