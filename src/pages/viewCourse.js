@@ -33,18 +33,23 @@ const ViewCourse = () => {
 
 
     return (
-        <div>
-            <div>
+        <div className='relative  w-full'>
+            <div className='flex w-[100%] gap-2'>
                 <VideoDetailsSidebar setReviewModal={setReviewModal} />
-                <div>
+                <div className='h-full w-[75%] mr-5 '>
                     <Outlet />
                 </div>
             </div>
 
-            {
+          <div className='absolute top-[50%] left-[50%] space-y-1 -translate-x-[50%] z-10  -translate-y-[50%]'>
+              {
                 reviewModal && <CourseReviewModal setReviewModal={setReviewModal} />
+              }
+             
+          </div>
+           {
+                reviewModal && <div className='absolute bg-[#5f5f5f83] top-0 right-0 left-0 bottom-0 -z-0 transition-all duration-200 backdrop-blur-sm'></div>
             }
-
         </div>
     )
 }

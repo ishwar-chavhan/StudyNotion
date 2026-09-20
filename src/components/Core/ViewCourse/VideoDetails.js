@@ -5,7 +5,7 @@ import { Player } from 'video-react';
 import { setCompletedLectures } from '../../../slice/viewCourseSlice';
 import 'video-react/dist/video-react.css';
 import { markLectureAsComplete } from '../../../services/operation/courseDetailsAPI';
-import { FaPlayCircle } from "react-icons/fa";
+
 
 const VideoDetails = () => {
 
@@ -165,73 +165,80 @@ const VideoDetails = () => {
   }
 
   return (
-    <div className='text-white'>
+    <div className='text-white z-1 w-full h-full relative'>
       {
         !videoData ? (<div>No DATA FOUND</div>) : (
           <Player
-
+          
             ref={playerRef}
-            aspectRatio="16:9"
+           aspectRatio="16:9"
             playsInline
             onEnded={(() => setVideoEnded(true))}
             src={videoData?.videoUrl}
           >
-            <FaPlayCircle />
+            {/* <FaPlayCircle size={50} /> */}
 
             {
               videoEnded && (
-                <div>
-                  {
-                    !completedLectures?.includes(subSectionId) && (
-                      <button
-                        disabled={loading}
-                        className='cursor-pointer rounded-md p-14 bg-yellow-50 text-richblack-800 text-[20px]'
-                        onClick={() => handleLectureCompletion()}
-                      >
+                <div className='absolute top-[50%] left-[50%] space-y-1 -translate-x-[50%]  -translate-y-[50%] z-10'>
+
+                    <div className='flex gap-4'>
                         {
-                          !loading ? "Mark As Coompleted" : "loading...."
-                        }
-                      </button>
-                    )
-                  }
+                            !isLastVideo() && (
+                              <button
+                                disabled={loading}
+                                onClick={goToNextVideo}
+                                className='cursor-pointer rounded-md  px-3 py-2  bg-yellow-50   text-richblack-800 text-[20px]'
+                              >
+                                Next
+                              </button>
+                            )
+                          }
+                    
+                        
 
-                  <button
-                    disabled={loading}
-                    className='cursor-pointer rounded-md p-14 bg-yellow-50 text-richblack-800 text-[20px]'
-                    onClick={() => {
-                      if (playerRef?.current) {
-                        playerRef.current?.seek(0);
-                        setVideoEnded(false);
+                            <button
+                              disabled={loading}
+                              className='cursor-pointer rounded-md px-3 py-2 bg-yellow-50 text-richblack-800 text-[20px]'
+                              onClick={() => {
+                                if (playerRef?.current) {
+                                  playerRef.current?.seek(0);
+                                  setVideoEnded(false);
+                                }
+                              }}
+                            >
+                              Rewatch
+                            </button>
+                  
+
+                  
+                          {
+                            !isFirstVideo() && (
+                              <button
+                                disabled={loading}
+                                onClick={goToPrevVideo}
+                                className='cursor-pointer rounded-md px-3 py-2   bg-yellow-50 text-richblack-800 text-[20px]'
+                              >
+                                Prev
+                              </button>
+                            )
+                          }  
+                      
+                    </div> 
+
+                    {
+                        !completedLectures?.includes(subSectionId) && (
+                          <button
+                            disabled={loading}
+                            className='cursor-pointer rounded-md px-3 py-2  bg-yellow-50 text-richblack-800 text-[20px]'
+                            onClick={() => handleLectureCompletion()}
+                          >
+                            {
+                              !loading ? "Mark As Coompleted" : "loading...."
+                            }
+                          </button>
+                        )
                       }
-                    }}
-                  >
-                    Rewatch
-                  </button>
-
-                  <div>
-                    {
-                      !isFirstVideo() && (
-                        <button
-                          disabled={loading}
-                          onClick={goToPrevVideo}
-                          className='cursor-pointer rounded-md p-14 bg-yellow-50 text-richblack-800 text-[20px]'
-                        >
-                          Prev
-                        </button>
-                      )
-                    }
-                    {
-                      !isLastVideo() && (
-                        <button
-                          disabled={loading}
-                          onClick={goToNextVideo}
-                          className='cursor-pointer rounded-md p-14 bg-yellow-50 text-richblack-800 text-[20px]'
-                        >
-                          Next
-                        </button>
-                      )
-                    }
-                  </div>
                 </div>
               )
             }
@@ -239,10 +246,10 @@ const VideoDetails = () => {
         )
       }
 
-      <h1>
+      <h1 className='mt-2 text-[18px] font-semibold'>
         {videoData?.title}
       </h1>
-      <p>
+      <p className='text-[14px] text-richblack-3000'>
         {videoData?.description}
       </p>
     </div>
