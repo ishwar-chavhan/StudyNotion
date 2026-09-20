@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux'
 import CourseInformationForm from './AddcourseFile/CourseInformationForm';
 import CourseBuilderForm from './courseBuilderForm/CourseBuilderForm';
 import PublishCourse from './PublishCoursefolder/PublishCourse';
+
+
 const RenderStep = () => {
     const { step } = useSelector((state) => state.course);
     // const step=1;
@@ -23,49 +25,70 @@ const RenderStep = () => {
     ]
 
 
-    return (
-        <div>
-            <div>
-                {
-                    steps.map((item) => (
-                        <div key={item.id}>
-                            <div className={`${step === item.id ?
-                                "bg-yellow-900 border-yellow-50 text-yellow-50"
-                                :
-                                "border-richblack-700 bg-richblack-800 text-richblack-300"}`}>
-                                {
-                                    step > item.id ? (<FaCheck />) : (<p>{item.id}</p>)
-                                }
-                            </div>
-                            {/* add daches between the label */}
-                        </div>
-                    ))
-                }
-            </div>
-            <div>
-                {
-                    steps.map((item) => (
-                        <div key={item.id}>
-                            <div>
-                                <p>{item.title}</p>
-                            </div>
-                        </div>
-                    ))
-                }
-            </div>
 
-            {
-                step === 1 && <CourseInformationForm />
-            }
-            {
-                step === 2 && <CourseBuilderForm />
-            }
-            {
-                step === 3 && <PublishCourse />
-            }
+  return (
+    <>
+      <div className="relative  flex w-full justify-center">
+        {steps.map((item) => (
+          <>
+            <div
+              className="flex flex-col items-center "
+              key={item.id}
+            >
+              <button
+                className={`grid cursor-default aspect-square w-[34px] place-items-center rounded-full border-[1px] ${
+                  step === item.id
+                    ? "border-yellow-50 bg-yellow-900 text-yellow-50"
+                    : "border-richblack-700 bg-richblack-800 text-richblack-300"
+                } ${step > item.id && "bg-yellow-50 text-yellow-50"}} `}
+              >
+                {step > item.id ? (
+                  <FaCheck className="font-bold text-richblack-900" />
+                ) : (
+                  item.id
+                )}
+              </button>
+              
+            </div>
+            {item.id !== steps.length && (
+              <>
+                <div
+                  className={`h-[calc(34px/2)] w-[33%]  border-dashed border-b-2 ${
+                  step > item.id  ? "border-yellow-50" : "border-richblack-500"
+                } `}
+                ></div>
+              </>
+            )}
+          </>
+        ))}
+      </div>
 
-        </div>
-    )
+      <div className="relative mb-16 flex w-full select-none justify-between">
+        {steps.map((item) => (
+          <>
+            <div
+              className="flex min-w-[130px] flex-col items-center gap-y-2"
+              key={item.id}
+            >
+              
+              <p
+                className={`text-sm ${
+                  step >= item.id ? "text-richblack-5" : "text-richblack-500"
+                }`}
+              >
+                {item.title}
+              </p>
+            </div>
+            
+          </>
+        ))}
+      </div>
+      {/* Render specific component based on current step */}
+      {step === 1 && <CourseInformationForm />}
+      {step === 2 && <CourseBuilderForm />}
+      {step === 3 && <PublishCourse />}
+    </>
+  )
 }
 
 export default RenderStep

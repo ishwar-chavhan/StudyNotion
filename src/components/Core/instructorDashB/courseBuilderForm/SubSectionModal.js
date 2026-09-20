@@ -126,14 +126,16 @@ const SubSectionModal = ({
     }
 
     return (
-        <div>
+        <div className='absolute top-[50%] left-[50%] z-10 -translate-x-[50%] -translate-y-[50%]'>
             <div>
-                <div>
-                    <p>{view && "Viewing"} {edit && "Editing"} {add && "Adding"} Lecture</p>
-                    <button type='button' onClick={() => setModalData(null)}>
-                        <RxCross1 />
-                    </button>
-                    <form >
+                <div >
+                   <div className='flex justify-between bg-richblack-700 mt-5 rounded-t-lg px-3 p-2' >
+                            <p>{view && "Viewing"} {edit && "Editing"} {add && "Adding"} Lecture</p>
+                            <button type='button' onClick={() => setModalData(null)}>
+                                <RxCross1 />
+                            </button>
+                   </div>
+                    <form className='px-4 py-5 flex flex-col gap-2 bg-richblack-800 rounded-b-lg' >
                         <UploadImage
                             name="lectureVideo"
                             label="Lecture Video"
@@ -145,14 +147,14 @@ const SubSectionModal = ({
                             editData={edit ? modalData.videoUrl : null}
                         />
                         <div>
-                            <label>
+                            <label className='text-[14px] ml-1 text-richblack-5'>
                                 Lecture Title
                             </label>
                             <input
                                 id="LectureTitle"
                                 placeholder='Enter Lecture Title'
                                 {...register("lectureTitle", { required: true })}
-                                className='w-full'
+                                className='w-full p-3 rounded-lg bg-richblack-700'
                             />
                             {
                                 errors.lectureTitle && (
@@ -163,14 +165,14 @@ const SubSectionModal = ({
                             }
                         </div>
                         <div>
-                            <label>
+                            <label  className='text-[14px] ml-1 text-richblack-5'>
                                 Lecture description
                             </label>
                             <textarea
                                 id='lectureDesc'
                                 placeholder='Enter Lecture Description'
                                 {...register("lectureDesc", { required: true })}
-                                className='w-full min-h-[130px]'
+                                className='w-full min-h-[130px] p-3 rounded-lg bg-richblack-700'
                             />
                             {
                                 errors.lectureDesc && (
@@ -188,6 +190,8 @@ const SubSectionModal = ({
                                 e.preventDefault();
                                 handleSubmit(onSubmit)(e);
                             }}
+                            className='p-4 bg-yellow-50 rounded-lg text-richblack-800 text-[18px] font-semibold'
+
                         >
                             {loading ? "Loading..." : edit ? "Save Changes" : view ? "" : "Save"}
                         </button>

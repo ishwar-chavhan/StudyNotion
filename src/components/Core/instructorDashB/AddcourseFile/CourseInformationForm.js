@@ -309,12 +309,12 @@ const CourseInformationForm = () => {
         editData={editCourse ? course?.instructions : []}
       />
 
-      <div>
+      <div className='flex gap-5'>
         {
           editCourse && (
             <button
               onClick={() => dispatch(setStep(2))}
-              className='flex items-center gap-x-2 bg-richblack-300'
+              className='flex items-center gap-x-2 bg-richblack-300 p-3 rounded-lg'
             >
               Continue Without Saving
             </button>

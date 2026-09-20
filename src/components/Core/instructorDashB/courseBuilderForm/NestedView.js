@@ -36,6 +36,8 @@ const NestedView = ({ handleChangeEditSectionName }) => {
 
 
     const handlerDeleteSubSection = async (subSectionId, sectionId) => {
+        console.log("subSectionId" , subSectionId);
+        console.log("sectionId" , sectionId);
         const result = await deleteSubSection({
             subSectionId,
             sectionId,
@@ -89,14 +91,14 @@ const NestedView = ({ handleChangeEditSectionName }) => {
                                     <BiSolidDownArrow className='text-xl text-richblack-300' />
                                 </div>
                             </summary>
-                            <div>
+                            <div >
                                 {
                                     section.subSection.map((data) => (
                                         <div key={data?._id}
                                             onClick={() => setViewSubsection(data)}
                                             className='flex items-center justify-between gap-x-3 border-b-2'
                                         >
-                                            <div className='flex items-center gap-x-3'>
+                                            <div className='flex items-center ml-3 gap-x-3'>
                                                 <RxDropdownMenu />
                                                 <p>{data?.title}</p>
                                             </div>
@@ -109,7 +111,9 @@ const NestedView = ({ handleChangeEditSectionName }) => {
                                                 >
                                                     <MdModeEdit />
                                                 </button>
-                                                <button onClick={() =>
+                                                <button 
+                                                type='button'
+                                                onClick={() =>
                                                     setConfirmationModal({
                                                         text1: "Delete This Subsection",
                                                         text2: "Selected Lecture Will be deleted",
@@ -167,6 +171,10 @@ const NestedView = ({ handleChangeEditSectionName }) => {
             }
             {
                 confirmationModal && <div className='absolute bg-[#5f5f5f83] top-0 right-0 left-0 bottom-0 -z-0 transition-all duration-200 backdrop-blur-sm' onClick={() => setConfirmationModal(null)}></div>
+            }
+
+            {
+                (viewSubsection || addSubsection || editSubsection) && <div className='absolute bg-[#5f5f5f83] top-0 right-0 left-0 bottom-0 -z-0 transition-all duration-200 backdrop-blur-sm'></div>
             }
 
         </div>

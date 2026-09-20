@@ -178,18 +178,15 @@ export const deleteSubSection = async (data, token) => {
     let result = null;
     const toastId = toast.loading("...loading");
     try {
-        console.log("level1")
         const response = await apiConnector("POST", DELETE_SUBSECTION_API, data,
             {
                 Authorization: `Bearer ${token}`,
             }
-        )
-        console.log("level2")
+        );
 
-        if (response?.data?.success) {
+        if (!response?.data?.success) {
             throw new Error("something is wrong in deletesubsection controller");
         }
-        console.log("level3")
 
         toast.success("subsection is deleted successfully");
         result = response?.data?.data;

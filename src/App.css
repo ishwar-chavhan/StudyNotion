@@ -10,4 +10,12 @@ html , body {
 .homepage_bg{
     background-image: url('../src/assets/Images/bghome.svg');
 }
- 
+ .rating-stars {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+}
+
+.rating-stars > span {
+    display: inline-block !important;
+}

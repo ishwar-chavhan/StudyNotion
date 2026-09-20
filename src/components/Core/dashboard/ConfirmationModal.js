@@ -1,5 +1,5 @@
 import React from 'react'
-import IconButton from './IconButton'
+// import IconButton from './IconButton'
 
 const ConfirmationModal = ({modalData}) => {
   return (
@@ -12,11 +12,13 @@ const ConfirmationModal = ({modalData}) => {
                 {modalData.text2}
             </p>
             <div className='flex gap-14  mx-auto'>
-                <IconButton 
-                onclick={modalData?.btn1Handler}
-                text={modalData?.btn1Text}
-                customClasses = "bg-yellow-50 px-3 py-2 text-richblack-800 font-semibold rounded-lg"
-                />
+                <button 
+                type='button'
+                onClick={modalData?.btn1Handler}
+                className = "bg-yellow-50 px-3 py-2 text-richblack-800 font-semibold rounded-lg"
+                >
+                  {modalData?.btn1Text}
+                </button>
                 <button onClick={modalData?.btn2Handler} className='bg-richblack-100 px-3 py-2 text-richblack-800 font-semibold rounded-lg'>
                     {modalData?.btn2Text}
                 </button>

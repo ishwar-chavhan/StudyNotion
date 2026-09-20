@@ -25,8 +25,9 @@ const Instructor = () => {
             if (result) {
                 setCourses(result);
             }
+            setLoading(false);
         }
-        setLoading(false);
+
         // pending
         getCourseDataWithStats();
     }, [token])
@@ -38,52 +39,55 @@ const Instructor = () => {
 
     return (
         <div className=' text-white'>
-            <div className='text-white'>
-                <h2>hi {user?.firstName}</h2>
-                <p>lets start something new</p>
+            <div className='text-white mb-10'>
+                <h2 className='text-[24px] font-bold '>hi {user?.firstName}</h2>
+                <p className='text-richblack-300 text-[18px]'>lets start something new</p>
             </div>
             {
                 loading ? (<div></div>) : coursesData?.courses?.length > 0 ? (<div>
-                    <div>
+                    <div className='flex gap-8'>
                         <InstuctorChart coursesData={instructorData} />
-                        <div>
-                            <p>Statistics</p>
-                            <div>
-                                <p>Total Course</p>
-                                <p>{coursesData?.courses?.length}</p>
+                        <div className=' px-7 py-6 bg-richblack-800 w-[30%] flex flex-col gap-5 '>
+                            <p className='text-[20px] font-semibold'>Statistics</p>
+                            <div  className='space-y-1'>
+                                <p className='text-[16px] text-richblack-300'>Total Course</p>
+                                <p className='text-[22px] font-semibold'>{coursesData?.courses?.length}</p>
                             </div>
 
-                            <div>
-                                <p>Total Student</p>
-                                <p>{totalStudent}</p>
+                            <div  className='space-y-1'>
+                                <p  className='text-[16px] text-richblack-300'>Total Student</p>
+                                <p className='text-[22px] font-semibold'>{totalStudent}</p>
                             </div>
 
-                            <div>
-                                <p>Total Amount</p>
-                                <p>{totalAmount}</p>
+                            <div className='space-y-1'>
+                                <p className='text-[16px] text-richblack-300'>Total Amount</p>
+                                <p  className='text-[22px] font-semibold'>{totalAmount}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div>
+                    <div className='bg-richblack-800 mt-10 p-4 flex flex-col gap-3'>
                         {/* render 3 course  */}
-                        <div>
-                            <p>Your Courses</p>
+                        <div className='flex justify-between'>
+                            <p className='text-[20px] font-semibold'>Your Courses</p>
                             <Link to="/dashboard/my-courses">
-                                <p>view all</p>
+                                <p className='text-yellow-50 hover:text-yellow-200'>view all</p>
                             </Link>
                         </div>
-                        <div>
+                        <div className='flex   gap-3 '>
                             {
                                 coursesData?.courses?.slice(0, 3).map((course, index) => (
-                                    <div key={index}>
+                                    <div key={index} className='w-[33%] flex gap-2 flex-col'>
                                         <img
                                             alt='thumbnail'
                                             src={course.thumbnail}
+                                            // height={200}
+                                            // width={200}
+                                           className="h-[201px] w-full rounded-md object-cover"
                                         />
                                         <div>
-                                            <p>{course.courseName}</p>
-                                            <div>
+                                            <p className='text-richblack-5'>{course.courseName}</p>
+                                            <div className='flex gap-2 text-[14px] text-richblack-200'>
                                                 <p>{course?.studentEnrolled?.length} Student</p>
                                                 <p>|</p>
                                                 <p>Rs {course.price}</p>

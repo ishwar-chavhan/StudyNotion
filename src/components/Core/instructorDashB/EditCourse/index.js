@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import RenderStep from '../RenderStep';
-import { getFullDetailsOfCourse } from '../../../../services/operation/courseDetailsAPI';
+// import RenderStep from '../RenderStep';
+import AddCourse from '../AddCourse';
+import { getCourseByCourseId } from '../../../../services/operation/courseDetailsAPI';
 import { setCourse, setEditCourse } from '../../../../slice/courseSlice';
 
 const EditCourse = () => {
@@ -13,7 +14,8 @@ const EditCourse = () => {
 
   useEffect(() => {
     const populateCourseDetails = async () => {
-      const result = await getFullDetailsOfCourse(courseId, token);
+      const result = await getCourseByCourseId(courseId, token);
+      console.log("edit course result" , result)
       if (result) {
         dispatch(setEditCourse(true));
         dispatch(setCourse(result));
@@ -27,7 +29,7 @@ const EditCourse = () => {
       <h1>Edit Course</h1>
       <div>
         {
-          course ? (<RenderStep />) : (
+          course ? (<AddCourse />) : (
             <p>Course not found</p>
           )
         }
