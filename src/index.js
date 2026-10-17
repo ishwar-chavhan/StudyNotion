@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import rootReducer from "./reducer";
 import { configureStore } from "@reduxjs/toolkit";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css";
 
 
 const store = configureStore({
