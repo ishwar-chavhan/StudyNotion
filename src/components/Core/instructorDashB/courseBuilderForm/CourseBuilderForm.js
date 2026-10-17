@@ -20,6 +20,7 @@ const CourseBuilderForm = () => {
 
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const [editSectionName, setEditSectionName] = useState(null);
   const { course } = useSelector((state) => state.course);

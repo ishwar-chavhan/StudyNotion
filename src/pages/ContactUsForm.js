@@ -12,6 +12,7 @@ const ContactPage = () => {
 
     const submitContactForm = async(data) => {
         try{
+            // eslint-disable-next-line no-unused-vars
             const response = {status : "Ok"}
         }catch(error){
         }
