@@ -20,7 +20,6 @@ exports.createCategory = async (req, res)=>{
             name : name,
             description : description
         });
-        console.log(categoryDetails);
 
         return res.status(200).json({
             success : true,
@@ -31,7 +30,6 @@ exports.createCategory = async (req, res)=>{
     }catch(error){
         return res.status(500).json({
             success : false,
-            message : error.message
         })
     }
 }
@@ -53,7 +51,6 @@ exports.showAllCategories  = async (req , res)=>{
         
         return res.status(500).json({
             success : false,
-            message : error.message
         });
 
     }
@@ -67,14 +64,12 @@ exports.categoryPageDetails = async (req , res)=>{
 // console.log("length:", categoryId?.length);
 // console.log("isValid:", mongoose.Types.ObjectId.isValid(categoryId));
        const updatedCategoryId = new mongoose.Types.ObjectId(categoryId);
-        console.log("level 1")
         if(!updatedCategoryId){
             return res.json({
                 success : false,
                 message : "categoryId not received"
             })
         }
-         console.log("level 2")
         const selectedCategory = await Category.findById(updatedCategoryId)
                                        .populate({
                                                         path: "course",
@@ -89,7 +84,6 @@ exports.categoryPageDetails = async (req , res)=>{
                 message : "data not found"
             });
         };
-         console.log("level 3")
         const categoriesExceptSelected = await Category.find({
                                     _id : {$ne : updatedCategoryId},
                                      }).populate({
@@ -104,7 +98,6 @@ exports.categoryPageDetails = async (req , res)=>{
             categoriesExceptSelected[
                 getRandomInt(categoriesExceptSelected.length)
             ];
-             console.log("level 4")
         let differentCategories = await Category.findOne(
                                             { _id: randomCategory._id}
                                         ).populate({
@@ -121,13 +114,11 @@ exports.categoryPageDetails = async (req , res)=>{
                                                                 populate: {
                                                                 path: "instructor",
                                                                 }})
- console.log("level 5")
         const allCourse = allCategories.flatMap((category)=>category.course);  
         const mostSellingCourse = allCourse
         .sort((a, b) => b.sold - a.sold)
         .slice(0, 10);
         // TODO :-> HW top selling course
- console.log("level 6")
         return res.status(200).json({
             success : true,
             message : "all category data is fetched",
@@ -140,10 +131,8 @@ exports.categoryPageDetails = async (req , res)=>{
 
         
     }catch(error){
-        console.log(error);
         return res.status(500).json({
             success :false,
-            message : error.message
         })
     }
 }

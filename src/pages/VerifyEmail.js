@@ -33,8 +33,6 @@ const VerifyEmail = () => {
 
     function handleOnSubmit(e) {
         e.preventDefault();
-        console.log(otp);
-        console.log(signupData);
         // dispatch(signup(accountType, firstName, lastName, password, confirmPassword, otp, navigate));
         dispatch(signup(accountType, firstName, lastName, password, confirmPassword, otp, email, navigate));
     }

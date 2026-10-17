@@ -57,7 +57,6 @@ const CourseBuilderForm = () => {
   async function onSubmit(data) {
     setLoading(true);
     let result;
-    console.log("editSectionName", editSectionName)
     if (editSectionName) {
       // we are 
       result = await updateSection(
@@ -82,7 +81,6 @@ const CourseBuilderForm = () => {
       setEditSectionName(null);
       setValue("sectionName", "");
     }
-    console.log(loading)
     setLoading(false);
   }
 
@@ -91,15 +89,10 @@ const CourseBuilderForm = () => {
 
     if (editSectionName === sectionId) {
       cancelEdit();
-      console.log("iuabfidabdui")
       return;
     }
-    console.log("editSectionName", editSectionName)
-    console.log(sectionId)
-    console.log(sectionName)
     setEditSectionName(sectionId);
     setValue("sectionName", sectionName);
-    console.log("editSectionName", editSectionName)
   }
 
 

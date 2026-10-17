@@ -38,7 +38,6 @@ const CourseInformationForm = () => {
 
       setLoading(false);
     };
-    console.log("course--->", course)
     if (editCourse && course) {
       const initialTags = Array.isArray(course?.tags)
         ? course.tags
@@ -70,8 +69,6 @@ const CourseInformationForm = () => {
     const currentValues = getValues();
     const originalCourse = course || {};
 
-    console.log("currentValues", currentValues);
-    console.log("course", originalCourse);
 
     if (currentValues.courseTitle !== originalCourse.courseName
       || currentValues.courseShortDesc !== originalCourse.courseDescription
@@ -134,7 +131,6 @@ const CourseInformationForm = () => {
         const result = await editCourseDetails(formData, token);
         setLoading(false);
         if (result) {
-          console.log("result", result);
           dispatch(setStep(2));
           dispatch(setCourse(result));
         }
@@ -147,8 +143,6 @@ const CourseInformationForm = () => {
 
 
     // create  new caourse
-    console.log(editCourse);
-    console.log("data s", data)
     const formData = new FormData();
     formData.append("courseName", data.courseTitle);
     formData.append("courseDescription", data.courseShortDesc);
@@ -159,17 +153,13 @@ const CourseInformationForm = () => {
     formData.append("tags", JSON.stringify(data.courseTags));
     formData.append("thumbnail", data.mediaUpload);
     setLoading(true);
-    console.log("formdata", Object.fromEntries(formData.entries()));
     const result = await addCourseDetails(formData, token);
     // console.log(r)
-    console.log("result", result)
     if (result) {
 
       dispatch(setStep(2));
       dispatch(setCourse(result));
-      console.log("is step is set of not");
     }
-    console.log("is step is set of not");
     setLoading(false);
   };
 

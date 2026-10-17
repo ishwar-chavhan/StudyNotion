@@ -15,7 +15,6 @@ const ViewCourse = () => {
         const setCourseSpecificDetails = async () => {
             const courseData = await getFullDetailsOfCourse(courseId, token);
             // if(!courseData)return;
-            console.log("courseData------>", courseData);
             dispatch(setCourseSectionData(courseData?.courseDetails?.courseContent || []));
             dispatch(setEntireCourseData(courseData?.courseDetails || []));
             dispatch(setCompletedLectures(courseData?.courseProgressCount || []));
@@ -23,7 +22,6 @@ const ViewCourse = () => {
             courseData?.courseDetails?.courseContent.forEach((element) => {
                 lecture += element.subSection.length;
             });
-            console.log("lecture---->", lecture);
             dispatch(setTotalNoOfLectures(lecture));
         }
 

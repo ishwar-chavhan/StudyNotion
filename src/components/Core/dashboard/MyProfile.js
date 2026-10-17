@@ -8,7 +8,6 @@ const MyProfile = () => {
 
     const {user} = useSelector((state) => state.profile);
     const navigate = useNavigate();
-    console.log(user);
     return (
     <div className='text-white flex flex-col gap-5'> 
         <h1 className='text-[36px] font-inter font-semibold'>

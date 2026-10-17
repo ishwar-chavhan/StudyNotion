@@ -35,7 +35,6 @@ const NavBar = () => {
                 const result = await apiConnector("GET" , categories.CATEGORIES_API);
                 setSubLink(result?.data?.data);
             }catch(error){
-                console.log("could not fetch the category list")
             }
         }
 

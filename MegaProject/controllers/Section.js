@@ -48,7 +48,6 @@ exports.createSection = async (req , res)=>{
         return res.status(500).json({
             success : false,
             message : "unable to create section pls try again",
-            error : error.message,
         })
     }
 }
@@ -83,7 +82,6 @@ exports.updateSection = async (req ,res)=>{
         return res.status(500).json({
             success : false,
             message : " unble to update section please try again",
-            error : error.message
         })
 
     }
@@ -131,7 +129,6 @@ exports.deleteSection = async (req , res)=>{
         return res.status(500).json({
             success : false,
             message : "unable to delete section ,please try again",
-            error : error.message,
         })
 
     }

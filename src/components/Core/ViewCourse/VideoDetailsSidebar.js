@@ -17,7 +17,6 @@ const VideoDetailsSidebar = ({setReviewModal}) => {
     } = useSelector((state)=>state.viewCourse);
 
     useEffect(()=>{
-        console.log("totalNoOfLecture----->" , totalNoOfLectures);
        const setActiveFlags = ()=>{
             if(!courseSectionData.length)return;
 

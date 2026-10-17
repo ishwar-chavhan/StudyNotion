@@ -19,7 +19,6 @@ const CourseDetailsCard = ({course , setConfirmationModal , handleBuyCourse }) =
         // console.log("carts---->" , cart);
         // console.log("course--->" , course)
         if(cart.some((item) => item._id === course._id)){
-            console.log()
             toast.error("course is already is added to cart");
             return;
         }

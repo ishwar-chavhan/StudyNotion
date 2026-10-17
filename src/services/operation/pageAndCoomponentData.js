@@ -2,32 +2,25 @@ import { toast } from 'react-toastify';
 import { catalogDataEndpoint } from '../apis';
 import { apiConnector } from '../apiconnector';
 
-const {
-    CATALOGPAGEDATA_API
-    
-} = catalogDataEndpoint;
+const { CATALOGPAGEDATA_API } = catalogDataEndpoint;
 
-const gteCatelogPageData =async  (categoryId) => {
+const getCatalogPageData = async (categoryId) => {
     let result = [];
-    const toastId = toast.loading("...loading");
-    try{
-        const response = await apiConnector("POST" , CATALOGPAGEDATA_API , {
-            categoryId : categoryId 
-        }) 
+    const toastId = toast.loading("Loading catalog...");
+    try {
+        const response = await apiConnector("POST", CATALOGPAGEDATA_API, {
+            categoryId,
+        });
 
-        if(!response?.data?.success){
-            throw new Error(" could not fetch category page data");
+        if (!response?.data?.success) {
+            throw new Error("Could not fetch catalog page data");
         }
         result = response?.data;
-        console.log("got data -------------->")
-         toast.success("getCatelogPageData successfully");
-    }catch(error){
-        console.log("error in getCatelogPageData ",error);
-          toast.error("error in CATALOGPAGEDATA_API");
-        //   result = error.response?.data;
+    } catch (error) {
+        toast.error("Could not load catalog data");
     }
-    toast.dismiss(toastId)
+    toast.dismiss(toastId);
     return result;
-}
+};
 
-export default gteCatelogPageData;
+export default getCatalogPageData;

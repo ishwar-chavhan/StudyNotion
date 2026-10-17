@@ -23,12 +23,7 @@ const EnrolledCourses = () => {
 
                 setEnrolledCourses(response?.data);
                 // setTotalduration(response?.data.totalDuration);
-                console.log("course id", response?.data[1]?._id)
-                console.log("courseContent id", response?.data[1]?.courseContent[0]?._id);
-                console.log("subSection id", response?.data[1]?.courseContent[0]?.subSection[0]?._id);
-                console.log(response);
             } catch (error) {
-                console.log("Unable to fetch enrolled course");
             }
         }
         getEnrolledCourses();

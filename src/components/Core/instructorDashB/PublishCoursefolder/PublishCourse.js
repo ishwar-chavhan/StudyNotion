@@ -44,9 +44,7 @@ const PublishCourse = () => {
         formData.append("courseId", course._id);
         const courseStatus = getValues("public") ? COURSE_STATUS.PUBLISHED : COURSE_STATUS.DRAFT;
         formData.append("status", courseStatus);
-        console.log(getValues("public"));
         setLoading(true);
-        console.log(Object.fromEntries(formData.entries()));
         const result = await editCourseDetails(formData, token);
 
         if (result) {
@@ -58,7 +56,6 @@ const PublishCourse = () => {
     }
 
     const onSubmit = () => {
-        console.log("ishahda")
         handleCoursePublish();
     }
 

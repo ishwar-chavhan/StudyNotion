@@ -13,9 +13,7 @@ const ContactPage = () => {
     const submitContactForm = async(data) => {
         try{
             const response = {status : "Ok"}
-            console.log("Logging Response" ,  response);
         }catch(error){
-            console.log("error : " , error);
         }
     }
 

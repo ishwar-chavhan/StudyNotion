@@ -26,11 +26,8 @@ const VideoDetails = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log("completedLectures->>>",completedLectures)
     const setVideoSpecificDetails = () => {
       if (!courseSectionData) return;
-      console.log("courseSectionData---->", courseSectionData);
-      console.log("courseEntireData---->", courseEntireData);
       if (!courseId && !sectionId && !subSectionId) {
         navigate("/dashboard/enrolled-courses");
       } else {
@@ -38,13 +35,11 @@ const VideoDetails = () => {
           (section) => section._id === sectionId
         );
 
-        console.log("filteredSection --->", filteredSection);
 
         const filteredVideoData = filteredSection?.subSection?.find(
           (subSection) => subSection._id === subSectionId
         );
 
-        console.log("filteredVideoData --->", filteredVideoData);
 
         setVideoData(filteredVideoData);
         setVideoEnded(false);

@@ -24,8 +24,6 @@ const CourseReviewModal = ({setReviewModal}) => {
     },[])
 
     const onSubmit = async (data)=>{
-        console.log("staerted")
-        console.log(data)
         await createRating(
             {
                 courseId : courseEntireData._id ,
@@ -39,7 +37,6 @@ const CourseReviewModal = ({setReviewModal}) => {
     }
 
     const ratingChanged = (newRating)=>{
-        console.log(newRating)
         setValue("courseRating" , newRating);
     }
 

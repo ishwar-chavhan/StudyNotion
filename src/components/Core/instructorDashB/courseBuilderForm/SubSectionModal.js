@@ -14,9 +14,6 @@ const SubSectionModal = ({
     edit = false,
 }) => {
 
-    console.log(add);
-    console.log(view);
-    console.log(edit);
     const {
         register,
         handleSubmit,
@@ -110,7 +107,6 @@ const SubSectionModal = ({
         // API CALL 
         setLoading(true);
         const result = await createSubSection(formdata, token);
-        console.log(result);
         setLoading(false);
 
         if (result) {

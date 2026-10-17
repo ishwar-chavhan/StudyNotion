@@ -16,7 +16,6 @@ const ChangePass = () => {
   const [typeConfirmPass , setTypeConfirmPass] = useState(false);
 
    function submitContactForm(data){
-    console.log(data);
     const confirmPassword = data.newPassword;
     const password = data.password;
      const  newPassword = data.newPassword;

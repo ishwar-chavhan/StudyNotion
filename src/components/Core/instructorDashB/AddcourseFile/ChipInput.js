@@ -8,7 +8,6 @@ const ChipInput = ({ label, setValue, name, placeholder, register, tagsData, err
     if (Array.isArray(tagsData)) {
       setTagsList(tagsData);
     }
-    console.log("tagsData", tagsData);
 
     register(name, {
       required: true,
@@ -17,7 +16,6 @@ const ChipInput = ({ label, setValue, name, placeholder, register, tagsData, err
   }, [register, name, tagsData]);
 
   useEffect(() => {
-    console.log("tagsList", tagsList);
     setValue(name, tagsList);
   }, [tagsList, name, setValue]);
 
@@ -25,7 +23,6 @@ const ChipInput = ({ label, setValue, name, placeholder, register, tagsData, err
     e.preventDefault()
     if (tags) {
       setTagsList([...tagsList, tags]);
-      console.log(tagsList)
       setTags("");
     }
   }

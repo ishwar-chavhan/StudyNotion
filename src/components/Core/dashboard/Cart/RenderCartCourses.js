@@ -8,7 +8,6 @@ export default function RenderCartCourses() {
   const dispatch = useDispatch();
 
   const  handleRemoveCart = (course)=>{
-     console.log(cart)
     dispatch(removeFromCart(course));
   }
 

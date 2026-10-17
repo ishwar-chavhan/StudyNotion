@@ -15,7 +15,6 @@ const EditCourse = () => {
   useEffect(() => {
     const populateCourseDetails = async () => {
       const result = await getCourseByCourseId(courseId, token);
-      console.log("edit course result" , result)
       if (result) {
         dispatch(setEditCourse(true));
         dispatch(setCourse(result));

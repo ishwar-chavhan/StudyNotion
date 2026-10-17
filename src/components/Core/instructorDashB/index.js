@@ -19,7 +19,6 @@ const IstructorCart = () => {
     useEffect(() => {
         const fecthedCourse = async () => {
             const result = await fetchInstructorCourse(token);
-            console.log("result data", result)
             if (result) {
                 setCoursesOFInstructor(result);
             }

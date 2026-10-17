@@ -5,7 +5,7 @@ import { categories } from '../services/apis';
 import CourseCard from '../components/Core/catalog/Course_card';
 import CourseSlider from '../components/Core/catalog/CourseSlider';
 import FooterPartOne from "../HomePage/FooterPartOne"
-import gteCatelogPageData from '../services/operation/pageAndCoomponentData';
+import getCatalogPageData from '../services/operation/pageAndCoomponentData';
 
 const Catelog = () => {
     const {
@@ -29,11 +29,10 @@ const Catelog = () => {
     useEffect(()=>{
         const getCategoryDetails = async ()=>{
             try{
-                const res = await gteCatelogPageData(categoryId);
-                console.log("printing respinse of getCategoryDetails" , res);
+                const res = await getCatalogPageData(categoryId);
                 setCatalogPageDate(res);
             }catch(err){
-                console.log(err);
+                // silently handled in service layer
             }
         }
         if(categoryId){

@@ -1,7 +1,16 @@
 {
-  "name": "react-tailwind-css-starter-pack",
+  "name": "studynotion",
   "version": "0.1.0",
+  "description": "StudyNotion – an ed-tech platform for creating, selling and learning courses online.",
   "private": true,
+  "author": "Ishwar Chavhan",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ishwar-chavhan/StudyNotion.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ishwar-chavhan/StudyNotion/issues"
+  },
   "dependencies": {
     "@ramonak/react-progress-bar": "^5.4.0",
     "@reduxjs/toolkit": "^2.12.0",
@@ -22,28 +31,16 @@
     "react-redux": "^9.3.0",
     "react-router-dom": "^7.18.2",
     "react-scripts": "5.0.1",
-    "react-simple-star-rating": "^5.1.7",
-    "react-star-ratings": "^2.3.0",
-    "react-toastify": "^11.1.0",
     "react-type-animation": "^3.2.0",
-    "redux-toolkit": "^1.1.2",
     "swiper": "^11.2.10",
     "video-react": "^0.16.0",
     "web-vitals": "^2.1.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git"
-  },
-  "author": "Pranay Gupta",
-  "bugs": {
-    "url": "https://github.com/thepranaygupta/react-tailwind-css-starter-pack/issues"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "server": "cd megaProject && npm run dev",
+    "server": "cd MegaProject && npm run dev",
     "dev": "concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm start\" \"npm run server\""
   },
   "eslintConfig": {

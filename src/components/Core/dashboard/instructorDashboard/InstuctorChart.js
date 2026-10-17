@@ -5,7 +5,7 @@ import { Pie } from 'react-chartjs-2';
 
 Chart.register(...registerables);
 
-const InstuctorChart = ({coursesData}) => {
+const InstructorChart = ({coursesData}) => {
     const [currChart , setCurrChart] = useState("students");
     const getRandomCharts = (numColors)=>{
         let color = [];
@@ -72,4 +72,4 @@ const InstuctorChart = ({coursesData}) => {
   )
 }
 
-export default InstuctorChart
+export default InstructorChart

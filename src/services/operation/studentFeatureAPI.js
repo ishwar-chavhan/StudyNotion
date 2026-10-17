@@ -1,134 +1,108 @@
 import { toast } from "react-toastify";
 import { studentEndpoint } from "../apis";
 import { apiConnector } from "../apiconnector";
-import rzpLogo from "../../assets/Logo/Logo-Full-Light.png"
-// import { verifyPayment } from "../../../MegaProject/controllers/Payment";
+import rzpLogo from "../../assets/Logo/Logo-Full-Light.png";
 import { resetCart } from "../../slice/cartSlice";
-
 
 const {
     COURSE_PAYMENT_API,
     COURSE_VERIFY_API,
-    SEND_PAYMENT_SUCCESS_EMAIL_API
+    SEND_PAYMENT_SUCCESS_EMAIL_API,
 } = studentEndpoint;
 
-
-function loadScript (src){
-    return new Promise((resolve)=>{
+function loadScript(src) {
+    return new Promise((resolve) => {
         const script = document.createElement("script");
         script.src = src;
-
-        script.onload=()=>{
-            resolve(true);
-        }
-
-        script.onerror = ()=>{
-            resolve(false);
-        }
-
-        document.body.appendChild(script)
-    })
+        script.onload = () => resolve(true);
+        script.onerror = () => resolve(false);
+        document.body.appendChild(script);
+    });
 }
 
-
-export async function buyCourse(token , courses , userDetails , navigate , dispatch){
-    const toastId = toast.loading("...loading");
-    try{
+export async function buyCourse(token, courses, userDetails, navigate, dispatch) {
+    const toastId = toast.loading("Preparing checkout...");
+    try {
         const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
-        if(!res){
-            toast.error("RazorPay SDK failed to load");
+        if (!res) {
+            toast.dismiss(toastId);
+            toast.error("Razorpay SDK failed to load. Check your internet connection.");
             return;
         }
-// console.log("reached this level")
-        const orderResponse = await apiConnector("POST" , COURSE_PAYMENT_API , {courses},  {
-               Authorization: `Bearer ${token}`,
-        })
-        
-        if(!orderResponse.data.success){
-            throw new Error(orderResponse.data.message);
-        }
-        console.log("orderResponse",orderResponse)
-        console.log("Razorpay Key:", process.env.REACT_APP_RAZORPAY_KEY);
-        const options ={
-            key :  process.env.REACT_APP_RAZORPAY_KEY,
-            currency : orderResponse.data.data.currency,
-            amount : `${orderResponse.data.data.amount}`,
-            order_id :  orderResponse.data.data.id,
-            name : "StudyNotion",
-            description : "thank you for purchasing the course",
-            image : rzpLogo ,
-            prefill : {
-                name : `${userDetails.firstName}${" "}${userDetails.lastName}`,
-                email : userDetails.email,
-            } ,
-            handler : function(response){
-                // send successfull mail
-                sendPaymentSuccessEmail(response , orderResponse.data.data.amount , token);
-                
-                // vefiry payment
-                verifyPayment({...response , courses} , token , navigate , dispatch)
-            },
-        }   
 
-        const paymentObject = new window.Razorpay(options)
-        paymentObject.open();
-        paymentObject.on("payment.failed" , function(response){
-            toast.error("oops , payment failed");
-            console.log(response.error)
-        })
-    }catch(error){
-        console.log("payment api error..", error);
-        toast.error("could not make payment");
-    }
-    toast.dismiss(toastId);
-}
-
-
-async function sendPaymentSuccessEmail(response , amount , token){
-    try{
-        console.log("level 1")
-       
-        await apiConnector("POST" , SEND_PAYMENT_SUCCESS_EMAIL_API ,
-             {
-                orderId : response.razorpay_order_id,
-                paymentId : response.razorpay_payment_id,
-                amount,
-             },
-             {
-            Authorization: `Bearer ${token}`,
-             }
-            )
-                    console.log("level 2")
-
-    }catch(error){
-        console.log("PAYMENT SUCCESS EMAIL ERROR..." , error);
-    }
-}
-
-// verify payment
-
-async function verifyPayment(bodyData , token , navigate , dispatch){
-    const toastId = toast.loading("Verifyping Payment...."); 
-    // dispatch(setPaymentLoading(true));
-     console.log(bodyData);
-    try{
-         console.log("level 1")
-        const response = await apiConnector("POST" , COURSE_VERIFY_API , bodyData ,{
+        const orderResponse = await apiConnector("POST", COURSE_PAYMENT_API, { courses }, {
             Authorization: `Bearer ${token}`,
         });
 
-         console.log("level 2")
-        if(!response.data.success){
-            throw new Error("something is wrong in verify payment");
+        if (!orderResponse.data.success) {
+            throw new Error(orderResponse.data.message);
         }
 
-        toast.success("payment successfull , your added to the course");
+        toast.dismiss(toastId);
+
+        const options = {
+            key: process.env.REACT_APP_RAZORPAY_KEY,
+            currency: orderResponse.data.data.currency,
+            amount: `${orderResponse.data.data.amount}`,
+            order_id: orderResponse.data.data.id,
+            name: "StudyNotion",
+            description: "Thank you for purchasing the course",
+            image: rzpLogo,
+            prefill: {
+                name: `${userDetails.firstName} ${userDetails.lastName}`,
+                email: userDetails.email,
+            },
+            handler: function (response) {
+                sendPaymentSuccessEmail(response, orderResponse.data.data.amount, token);
+                verifyPayment({ ...response, courses }, token, navigate, dispatch);
+            },
+        };
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+        paymentObject.on("payment.failed", function () {
+            toast.error("Payment failed. Please try again.");
+        });
+    } catch (error) {
+        toast.dismiss(toastId);
+        toast.error(error?.response?.data?.message || "Could not initiate payment");
+    }
+}
+
+async function sendPaymentSuccessEmail(response, amount, token) {
+    try {
+        await apiConnector(
+            "POST",
+            SEND_PAYMENT_SUCCESS_EMAIL_API,
+            {
+                orderId: response.razorpay_order_id,
+                paymentId: response.razorpay_payment_id,
+                amount,
+            },
+            { Authorization: `Bearer ${token}` }
+        );
+    } catch (error) {
+        // Non-critical: don't block the user if email fails
+    }
+}
+
+async function verifyPayment(bodyData, token, navigate, dispatch) {
+    const toastId = toast.loading("Verifying payment...");
+    try {
+        const response = await apiConnector("POST", COURSE_VERIFY_API, bodyData, {
+            Authorization: `Bearer ${token}`,
+        });
+
+        if (!response.data.success) {
+            throw new Error("Payment verification failed");
+        }
+
+        toast.dismiss(toastId);
+        toast.success("Payment successful! You are now enrolled.");
         navigate("/dashboard/enrolled-courses");
         dispatch(resetCart());
-    }catch(error){
-        console.log("PAYMENT NOT VERIFY ERROR..." , error);
-        toast.error("Could not verify payment");
+    } catch (error) {
+        toast.dismiss(toastId);
+        toast.error(error?.response?.data?.message || "Could not verify payment");
     }
-    toast.dismiss(toastId);
-    // dispatch(setPaymentLoading(false));
 }

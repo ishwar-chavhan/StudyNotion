@@ -8,7 +8,6 @@ const Course_card = ({course , height , width}) => {
     useEffect(()=>{
         const count = GetAvgRating(course.ratingAndreviews);
         setAvgReviewCount(count);
-        console.log("course data of card",course);
     } , [course]);
   return (
     <div className='border-[1px] py-2 px-2 border-richblack-800 rounded-xl '>

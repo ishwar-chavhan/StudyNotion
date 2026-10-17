@@ -28,7 +28,6 @@ const CourseDetails = () => {
                 const result = await getCourseByCourseId(courseId, token);
                 setCourseData(result);
             } catch (error) {
-                console.log("could not fetch the course details");
             }
         };
 

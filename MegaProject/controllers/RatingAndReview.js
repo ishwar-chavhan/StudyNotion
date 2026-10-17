@@ -3,17 +3,14 @@ const Course = require("../models/course");
 
 exports.creatRating = async (req , res)=>{
     try{
-        console.log("level1")
         const userId = req.user.id;
 
         const {rating , review , courseId} = req.body;
-console.log("level2")
         const courseDetails = await Course.findOne(
             {
                 _id : courseId,
                 studentEnrolled : {$elemMatch : {$eq : userId}} 
             });
-            console.log("level3")
 
         if(!courseDetails){
             return res.status(404).json({
@@ -23,27 +20,23 @@ console.log("level2")
                 userId : userId
             });
         };
-        console.log("level4")
 
         const alreadyReviewed = await RatingAndReview.findOne({
             user : userId,
             course : courseId,
         });
-console.log("level5")
         if(alreadyReviewed){
             return res.status(403).json({
                 success : false,
                 message : "course already reviewed by user",
             })
         };
-console.log("level6")
         const ratingReviews = await RatingAndReview.create({
             user : userId,
             rating ,
             review,
             course : courseId,
         })
-console.log("level7")
       const updatedCourseDetails =   await Course.findByIdAndUpdate({_id : courseId} , 
             {
                 $push : {
@@ -54,8 +47,6 @@ console.log("level7")
                 new : true, 
             }
         )
-console.log("level8")
-        console.log(updatedCourseDetails);
 
         return res.status(200).json({
             success : true,
@@ -67,7 +58,6 @@ console.log("level8")
     }catch(error){
         return res.status(500).json({
             success : false ,
-            message : error.message,
         })
 
     }
@@ -102,10 +92,8 @@ exports.getAverageRating = async (req , res)=>{
             averageRating : 0
         });
     }catch(error){
-        console.log(error);
         return res.status(500).json({
             success : false,
-            message : error.message
         });
     }
 }
@@ -136,10 +124,8 @@ exports.getAllRating = async (req , res) =>{
      )
      
     }catch(error){
-        console.log(error);
         return res.status(500).json({
             success : false,
-            message : error.message
         })
     }
 }

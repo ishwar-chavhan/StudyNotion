@@ -1,30 +1,41 @@
 {
-  "name": "megaproject",
+  "name": "studynotion-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Express + MongoDB backend for StudyNotion – an ed-tech platform supporting course creation, Razorpay payments, and Cloudinary media uploads.",
   "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "edtech",
+    "studynotion",
+    "express",
+    "mongodb"
+  ],
+  "author": "Ishwar Chavhan",
+  "license": "MIT",
   "type": "commonjs",
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "bcryptjs": "^3.0.3",
     "cloudinary": "^2.10.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-fileupload": "^1.5.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.8.1",
     "nodemailer": "^9.0.3",
-    "nodemon": "^3.1.14",
     "otp-generator": "^4.0.1",
     "razorpay": "^2.9.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }

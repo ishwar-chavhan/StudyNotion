@@ -30,7 +30,6 @@ export default function UploadImage({
   }
 
   useEffect(() => {
-    console.log(selectedFile);
   }, [selectedFile]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

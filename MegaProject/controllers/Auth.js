@@ -5,67 +5,62 @@ const Profile = require("../models/Profile");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-// const cookie = require("cookie-parser");
 const mailSender = require("../utils/mailSender");
 
-//  send otp
-exports.sendOTP = async (req , res)=>{
-    try{
-        const {email} = req.body;
-        
-        const checkUserPresent = await User.findOne({email});
-        if(checkUserPresent){
-            return res.status(401).json({
-                success : false,
-                message : "user already registered"
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ALLOWED_ACCOUNT_TYPES = ["Student", "Instructor"];
+
+// Send OTP
+exports.sendOTP = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email || !EMAIL_REGEX.test(email)) {
+            return res.status(400).json({
+                success: false,
+                message: "Please provide a valid email address",
             });
-        };
+        }
 
-            let otp = otpGenerator.generate(6 , {
-                upperCaseAlphabets : false,
-                lowerCaseAlphabets : false,
-                specialChars : false,
-            })
-
-            // let result = await OTP.findOne({otp : otp});
-
-            // while(result){
-            // otp = otpGenerator.generate(6 , {
-            //     upperCaseAlphabets : false,
-            //     lowerCaseAlphabets : false,
-            //     specialChars : false,
-            // })
-
-            // result = await OTP.findOne({otp : otp});
-            // }
-
-
-            // const otpPayload = {email , otp};
-
-            const otpBody = await OTP.create({
-                email : email,
-                otp : otp
+        const checkUserPresent = await User.findOne({ email });
+        if (checkUserPresent) {
+            return res.status(409).json({
+                success: false,
+                message: "User already registered with this email",
             });
-            
-            res.status(200).json({
-                success : true,
-                message : "OTP sent successfully",
-                   otp : otp
-            });        
-    }catch(err){
-        console.log(err);
+        }
+
+        const otp = otpGenerator.generate(6, {
+            upperCaseAlphabets: false,
+            lowerCaseAlphabets: false,
+            specialChars: false,
+        });
+
+        // OTP model pre-save hook sends the email; if it throws we catch it here
+        try {
+            await OTP.create({ email, otp });
+        } catch (emailErr) {
+            return res.status(500).json({
+                success: false,
+                message: "Failed to send OTP email. Please try again.",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "OTP sent successfully. Please check your email.",
+        });
+    } catch (err) {
         return res.status(500).json({
-            success : false,
-            message : "error while generating otp"
-        })
+            success: false,
+            message: "Error while generating OTP",
+        });
     }
-}
+};
 
-
-
-
-exports.signUp = async (req , res) =>{
-    try{
+// Sign Up
+exports.signUp = async (req, res) => {
+    try {
         const {
             firstName,
             lastName,
@@ -73,206 +68,226 @@ exports.signUp = async (req , res) =>{
             password,
             confirmPassword,
             accountType,
-            contactNumber,
             otp,
         } = req.body;
 
-        if(!firstName || !lastName || !email || !password || !confirmPassword || !otp){
-            return res.status(403).json({
-                success : false,
-                message : "enter all details in all section"
-            });
-        };
-
-        if(password !== confirmPassword){
+        if (!firstName || !lastName || !email || !password || !confirmPassword || !otp) {
             return res.status(400).json({
-                success : false,
-                message : "both password doesnt match"
+                success: false,
+                message: "All fields are required",
             });
-        };
+        }
 
-        const existingUser = await User.findOne({email});
-
-        if(existingUser){
+        if (!EMAIL_REGEX.test(email)) {
             return res.status(400).json({
-                success : false,
-                message : "user already exist please login"
+                success: false,
+                message: "Please provide a valid email address",
             });
-        };
+        }
 
-        // fetch most recent OTP for this email and compare values
+        if (password.length < 8) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must be at least 8 characters",
+            });
+        }
+
+        if (password !== confirmPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Passwords do not match",
+            });
+        }
+
+        // Prevent Admin self-registration; only allow Student or Instructor
+        if (!ALLOWED_ACCOUNT_TYPES.includes(accountType)) {
+            return res.status(400).json({
+                success: false,
+                message: "Account type must be 'Student' or 'Instructor'",
+            });
+        }
+
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(409).json({
+                success: false,
+                message: "User already exists. Please log in.",
+            });
+        }
+
+        // Fetch most recent OTP for this email
         const recentOtp = await OTP.findOne({ email }).sort({ createdAt: -1 });
-
-        if(!recentOtp){
+        if (!recentOtp) {
             return res.status(400).json({
-                success : false,
-                message : "OTP not found"
-            });
-        }
-         if(recentOtp.otp != otp){
-            return res.status(400).json({
-                success : false,
-                message : "Invalid OTP"
+                success: false,
+                message: "OTP not found or expired. Please request a new one.",
             });
         }
 
-        const hashedPassword = await bcrypt.hash(password , 10);
+        if (recentOtp.otp !== otp) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid OTP",
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
         const profileDetails = await Profile.create({
-            gender : null,
-            dateOfBirth : null,
-            about : null,
-            contactNumber:null,
-        })
+            gender: null,
+            dateOfBirth: null,
+            about: null,
+            contactNumber: null,
+        });
 
-      
-        const user = await User.create({
+        await User.create({
             firstName,
             lastName,
             email,
-            password : hashedPassword,
+            password: hashedPassword,
             accountType,
             additionDetails: profileDetails._id,
-            image : `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`
-        })
+            image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`,
+        });
 
-
-        // const mailResponse = await mailSender(email , "your have successfully signIn in studyNotion" , "congratulation");
-
-        return res.status(200).json({
-            success : true,
-            message : "user is resistered successfully"
-        })
-    }catch(error){
-        console.log(error);
+        return res.status(201).json({
+            success: true,
+            message: "User registered successfully",
+        });
+    } catch (error) {
         return res.status(500).json({
-            success : false,
-            message : "user can not be resistered please try again",
-            error : error.message
-        })
-    }
-}
-
-exports.login = async (req , res)=>{
-    try{
-
-        const {email , password} = req.body;
-        if(!email || !password){
-            return res.status(403).json({
-                success : false,
-                message : "All field are required please try again"
-            });
-        };
-
-        const user = await User.findOne({email}).populate("additionDetails").populate("courses").exec();
-        if(!user){
-            return res.status(403).json({
-                success : false,
-                message : "user doesnt exist please singup first"
-            })
-        }
-
-        if(await bcrypt.compare(password , user.password)){
-            const payload = {
-                email : user.email,
-                id : user._id,
-                accountType : user.accountType,
-            }
-            const token = jwt.sign(payload , process.env.JWT_SECRET,{
-                expiresIn : "2h"
-            });
-
-
-            user.token = token;
-            user.password = undefined;
-
-            const options = {
-                expires : new Date(Date.now() + 3 * 23 * 60 * 60 * 1000),
-                httpOnly : true,
-            }
-
-            res.cookie("token" , token , options).json({
-                success : true,
-                token ,
-                user ,
-                message : "logged in successfully"
-            }
-            );
-        }
-        else{
-            return res.status(401).json({
-                success : false,
-                message : "Password is incorrect",
-            });
-        }
-    }catch(error){
-        console.log(error);
-        return res.status(500).json({
-            success : false,
-            message : "login failure , please try again"
+            success: false,
+            message: "Registration failed. Please try again.",
         });
     }
-}
+};
 
+// Login
+exports.login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
 
-// home work 
-
-exports.changePassword = async (req , res)=>{
-    try{
-        const userId = req.user.id;
-        const userDetails = await User.findById(userId);
-
-        const {password , newPassword , confirmPassword} = req.body;
-
-        if(newPassword !== confirmPassword){
+        if (!email || !password) {
             return res.status(400).json({
-                success : false,
-                message : "password and confirm password doesnt match"
+                success: false,
+                message: "Email and password are required",
             });
-        };
-
-        if(await bcrypt.compare(password , userDetails.password)){
-                
-              const hashedPassword = await bcrypt.hash(newPassword , 10);
-              const updatedDetails = await User.findByIdAndUpdate(
-                                                                    {_id : userId},
-                                                                    {
-                                                                       
-                                                                            password : hashedPassword,
-                                                                        
-                                                                    },
-                                                                    {new : true}
-              )
-              
-              try{
-
-                const mailResponse = await mailSender(userDetails.email ," yourpassword is change " , "you have changed your password");
-                // console.log(mailResponse);
-
-              }catch(error){
-                return res.json({
-                    success : false,
-                    message : "error while sending mail"
-                })
-              }
-        }else
-        {
-            return res.json({
-                success : false,
-                message : "password doesnt match"
-            })
         }
 
-        return res.status(200).json({
-            success : true,
-            message : "password has change successfully"
+        const user = await User.findOne({ email })
+            .populate("additionDetails")
+            .populate("courses")
+            .exec();
 
-        })
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid credentials",
+            });
+        }
 
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid credentials",
+            });
+        }
 
-    }catch(error){
-        return res.status(500),json({
-            success : false,
-            message : "password con not be changed pls try again later"
-        })
+        const payload = {
+            email: user.email,
+            id: user._id,
+            accountType: user.accountType,
+        };
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {
+            expiresIn: "24h",
+        });
+
+        // Don't expose password in response
+        user.password = undefined;
+
+        const cookieOptions = {
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            httpOnly: true,
+            sameSite: "strict",
+        };
+
+        return res
+            .status(200)
+            .cookie("token", token, cookieOptions)
+            .json({
+                success: true,
+                token,
+                user,
+                message: "Logged in successfully",
+            });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Login failed. Please try again.",
+        });
     }
-}
+};
+
+// Change Password
+exports.changePassword = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const userDetails = await User.findById(userId);
+        if (!userDetails) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        const { password, newPassword, confirmPassword } = req.body;
+
+        if (!password || !newPassword || !confirmPassword) {
+            return res.status(400).json({ success: false, message: "All fields are required" });
+        }
+
+        if (newPassword.length < 8) {
+            return res.status(400).json({
+                success: false,
+                message: "New password must be at least 8 characters",
+            });
+        }
+
+        if (newPassword !== confirmPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "New password and confirm password do not match",
+            });
+        }
+
+        const isMatch = await bcrypt.compare(password, userDetails.password);
+        if (!isMatch) {
+            return res.status(401).json({
+                success: false,
+                message: "Current password is incorrect",
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await User.findByIdAndUpdate(
+            userId,
+            { password: hashedPassword },
+            { new: true }
+        );
+
+        // Fire-and-forget notification email
+        mailSender(
+            userDetails.email,
+            "Your StudyNotion password was changed",
+            "<p>Your password has been changed successfully. If you did not request this, contact support immediately.</p>"
+        ).catch(() => {});
+
+        return res.status(200).json({
+            success: true,
+            message: "Password changed successfully",
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Could not change password. Please try again.",
+        });
+    }
+};

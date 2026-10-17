@@ -62,7 +62,6 @@ exports.updateProfile = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "profile connot be updated",
-            error: error.message
         })
     }
 }
@@ -147,7 +146,6 @@ exports.getEnrolledCourses = async (req, res) => {
         }
 
 
-        console.log(
             "userDetails?.courses?.courseContent?", userDetails?.courses[1]?.courseContent[0]?.subSection[0]
         )
 
@@ -169,7 +167,6 @@ exports.getEnrolledCourses = async (req, res) => {
             );
         }
 
-        console.log("final step of enrolled coursed")
         const userDetails1 = await User.findOne({
             _id: userId
         }).populate({
@@ -186,7 +183,6 @@ exports.getEnrolledCourses = async (req, res) => {
 
         // const totalDuration = convertSecondsToDuration(totalDurationInSeconds);
 
-        console.log("final stage")
         return res.status(200).json({
             success: true,
             message: "user details fetched",
@@ -197,7 +193,6 @@ exports.getEnrolledCourses = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             success: false,
-            message: error.message
         })
 
     }
@@ -206,7 +201,6 @@ exports.getEnrolledCourses = async (req, res) => {
 
 exports.uploadProfilePicture = async (req, res) => {
     try {
-        console.log("error1")
         const userId = req.user.id;
         const imageFile = req.files?.imageFile;
         if (!imageFile) {
@@ -215,9 +209,7 @@ exports.uploadProfilePicture = async (req, res) => {
                 message: "Please upload an image"
             })
         }
-        console.log("error2")
         const response = await uploadImageToCloudinary(imageFile, process.env.FOLDER_NAME, 1000, 1000);
-        console.log("error3")
         const response1 = await User.findByIdAndUpdate(userId,
             {
                 image: response.secure_url
@@ -227,7 +219,6 @@ exports.uploadProfilePicture = async (req, res) => {
             }
         ).populate("additionDetails").exec();
 
-        console.log("error4")
         return res.status(200).json({
             success: true,
             user: response1,
@@ -235,10 +226,8 @@ exports.uploadProfilePicture = async (req, res) => {
         })
 
     } catch (error) {
-        console.log("error in uploadProfilePicture");
         return res.status(500).json({
             success: false,
-            message: error.message,
             error: "error hai bhai file upload me"
         })
     }
@@ -263,7 +252,6 @@ exports.instructorDashboard = async (req , res)=>{
             return courseDataWithStats;
         })
 
-        console.log(courseData);
         return res.status(200).json({
             success :true ,
             courses : courseData,
@@ -272,7 +260,6 @@ exports.instructorDashboard = async (req , res)=>{
     }catch(error){
         return res.status(500).json({
             success : false,
-            message : error.message
         })
     }
 }
